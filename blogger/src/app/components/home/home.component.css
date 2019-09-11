@@ -1,0 +1,14 @@
+
+.btn{
+  width: 40%;
+  padding: 14px 28px;
+  background-color:rgba(255, 123, 0, 0.883);
+  color: white;
+  font-size: 22px;
+  cursor: pointer;
+  text-align: center; 
+}
+
+.dat{
+  margin-left: 20px !important;
+}

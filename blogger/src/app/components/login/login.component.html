@@ -1,0 +1,19 @@
+<div class="main">
+  <h2 class="text-center">LOGIN</h2>
+  <hr>
+  <form (ngSubmit)="login()" #loginForm="ngForm">
+    <div class="eap">
+      <label for="email">EMAIL</label>
+      <input type="text" class="form-control" id="email" ngModel name='email'>
+    </div>
+
+    <div class="eap">
+      <label for="password">PASSWORD</label>
+      <input type="password" class="form-control" id="password" ngModel name='password'>
+    </div>
+
+    <button type="submit" class="btn btn-success mybtn">SUBMIT</button>
+    <hr>
+    <a routerLink="/forgetpassword"><span class="glyphicon glyphicon-user">FORGET PASSWORD</span></a>
+  </form>
+</div>

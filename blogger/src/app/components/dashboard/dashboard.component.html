@@ -1,0 +1,50 @@
+<div class="ht">
+  <div class="welcome">
+    <h2>Share Your Knowledge By Creating Own Blog</h2>
+    <button class="create" routerLink="/create-blog">Create Blog</button>
+  </div>
+</div>
+
+<div *ngIf="role == 'admin'; else user">
+  <div *ngFor="let blog of blogs">
+    <div class="des">
+      <h1> {{ blog.title }} </h1>
+      <div id="description" innerHTML="{{blog.description}}"></div>
+    </div>
+    <div class="delit">
+      <button (click)=comments(blog._id) class="btn btn-secondary btn-md">Comment</button>
+      <button (click)=blogEdit(blog._id) class="btn btn-info btn-md">Edit</button>
+      <button (click)="blogDelete(blog._id)" class="btn btn-danger btn-md">Delete</button>
+    </div>
+
+  </div>
+</div>
+
+<ng-template #user>
+  <div *ngFor="let blog of blogs">
+    <div class="des">
+      <h1> {{ blog.title }} </h1>
+      <div innerHTML="{{blog.description}}"></div>
+    </div>
+    <div class="delit">
+      <span *ngFor="let myblog of myBlogs">
+        <span *ngIf="blog._id == myblog">
+          <button (click)=blogEdit(myblog) class="btn btn-info btn-md">Edit</button>
+          <button (click)="blogDelete(myblog)" class="btn btn-danger btn-md">Delete</button>
+        </span>
+      </span>
+      <button class="btn btn-secondary btn-md" (click)=comments(blog._id)>Comment</button>
+    </div>
+    <hr>
+  </div>
+</ng-template>
+
+<div style="text-align: center">
+  <ul class="pagination">
+    <li><a class="page-link" (click)="previous()">Previous</a></li>
+    <li *ngFor="let araay of araays">
+      <a class="page-link" (click)="pageclick(araay)">{{araay}}</a>
+    </li>
+    <li><a class="page-link" (click)="next()">Next</a></li>
+  </ul>
+</div>

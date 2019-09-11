@@ -1,0 +1,19 @@
+<h1>Your Blogs:- </h1>
+<div *ngIf="blogs">
+  <div *ngIf="blogs.length == 0; else data">
+    Zero
+  </div>
+  <ng-template #data>
+    <div *ngFor="let blog of blogs">
+      <div class="des">
+        <h2>{{blog.title}}<span style="color:blue;font-size:25px;"> ({{blog.postType}})</span></h2>
+        <div id="description" innerHTML="{{blog.description}}"></div>
+      </div>
+      <div class="delit">
+        <button (click)=blogEdit(blog._id) class="btn btn-info btn-md">Edit</button>
+        <button (click)="blogDelete(blog._id)" class="btn btn-danger btn-md">Delete</button>
+        <hr>
+      </div>
+    </div>
+  </ng-template>
+</div>

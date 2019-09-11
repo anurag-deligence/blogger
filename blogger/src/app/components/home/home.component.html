@@ -1,0 +1,24 @@
+<header class="ht">
+  <div class="welcome">
+    <p style="font-family:Verdana">WELCOME TO BLOGU</p>
+    <h2>CREATE YOUR BLOG</h2>
+    <button class="btn" routerLink="/register">Start Your Blog</button>
+  </div>
+</header>
+
+<div class="des" *ngFor="let blog of blogs">
+  <div class="dat">
+    <h1><b>{{ blog.title }}</b></h1>
+    <div innerHTML="{{blog.description}}"></div>
+  </div>
+</div>
+
+<div style="text-align:center">
+  <ul class="pagination">
+    <li><a class="page-link" (click)="previous()">Previous</a></li>
+    <li *ngFor="let araay of araays">
+      <a class="page-link" (click)="pageclick(araay)">{{araay}}</a>
+    </li>
+    <li><a class="page-link" (click)="next()">Next</a></li>
+  </ul>
+</div>

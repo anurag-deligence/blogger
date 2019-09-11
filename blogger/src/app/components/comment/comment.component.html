@@ -1,0 +1,15 @@
+<p>comment works!</p>
+<div *ngIf="data" style="background-color: #e0e0ca">
+  <h2>{{data.title}}</h2>
+  <div id="description" innerHTML="{{data.description}}"></div>
+</div>
+<br><br>
+<div *ngFor="let comment of comments" style="background-color: #b6f3ff">
+  {{comment.email}}
+  <div innerHTML="{{comment.comment}}"></div>
+  <span *ngIf="user.role == 'admin'|| comment.email == user.email">
+    <button (click)="delCom(comment.comment,data._id)" class="btn btn-danger">Delete</button>
+  </span>
+</div>
+<textarea [froalaEditor] rows="7" cols="50" ngModel name="comment" #comment></textarea>
+<button (click)=addComments(data._id,comment)>Comment</button>
