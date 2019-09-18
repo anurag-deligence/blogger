@@ -1,5 +1,13 @@
-<div *ngIf="user">
+<div *ngIf="user" class="detailsH">
+  <img [src]=imageStr style=" border-radius: 50%; width: 300px; height: 300px">
+  <div [hidden]="fun">
+    <input type="file" name="image" (change)="updatePhoto($event)" />
+    <button type="submit" (click)="updatePic()" class="btn btn-success btn-md">upload</button>
+  </div>
+  <button type="button" (click)="show()" class="btn btn-link">Edit Profile Picture</button>
   <h2>{{user.name}}</h2>
   <h2>{{user.email}}</h2>
-  <a routerLink='/change-password'><span></span>Change Password</a>
+  <a routerLink='/change-password'>Change Password</a>
+  <br>
+  <button type="button" (click)="deleteAccount()" class="btn btn-link">Delete Your Account</button>
 </div>

@@ -1,36 +1,48 @@
-<div class="main">
-  <h2 class="text-center">SIGN UP</h2>
-  <form [formGroup]="signupForm" (ngSubmit)="onRegister()">
-
-    <div class="form-group">
-      <label for="name">Name</label>
-      <input type="text" class="form-control" id="name" formControlName="name">
+<div class=container-fluid>
+  <div class="row">
+    <div class="col-sm-4">
+      <img
+        src="https://images.pexels.com/photos/914931/pexels-photo-914931.jpeg?cs=srgb&dl=beautiful-caucasian-connection-914931.jpg&fm=jpg"
+        alt="Girl in a jacket" style="width:600px;height:450px;">
     </div>
+    <div class="col-sm-4 starting">
+      <h2 class="text-center">SIGN UP</h2>
+      <ng-flash-message></ng-flash-message>
+      <form [formGroup]="signupForm" (ngSubmit)="onRegister()">
 
-    <div class="form-group">
-      <label for="email">Email</label>
-      <input type="email" class="form-control" id="email" formControlName="email">
-      <span *ngIf="!signupForm.get('email').valid && signupForm.get('email').touched" class="help-block">
-        Please Enter Valid Email.
-      </span>
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" class="form-control" id="name" formControlName="name">
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" class="form-control" id="email" formControlName="email">
+          <span *ngIf="!signupForm.get('email').valid && signupForm.get('email').touched" class="help-block"
+            style="color:red">
+            Please Enter Valid Email.
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" class="form-control" id="password" formControlName="password"
+            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">
+          <span *ngIf="!signupForm.get('password').valid && signupForm.get('password').touched" class="help-block"
+            style="color:red">
+            Please Enter Strong Password (1 digit, 1 uppercase & lowercase, min length 8 ).
+          </span>
+        </div>
+
+        <div class="radio" *ngFor="let gender of genders">
+          <label>
+            <input type='radio' name="gender" formControlName="gender" [value]="gender">{{gender}}
+          </label>
+        </div>
+
+        <div *ngIf="buttonDisabled()"></div>
+        <button type="submit" class="btn btn-primary mybtn" [disabled]="disableBtn">SUBMIT</button>
+      </form>
     </div>
-
-    <div class="form-group">
-      <label for="password">Password</label>
-      <input type="password" class="form-control" id="password" formControlName="password"
-        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">
-      <span *ngIf="!signupForm.get('password').valid && signupForm.get('password').touched" class="help-block">
-        Please Enter Strong Password (1 digit, 1 uppercase & lowercase, min length 8 ).
-      </span>
-    </div>
-
-    <div class="radio" *ngFor="let gender of genders">
-      <label>
-        <input type='radio' name="gender" formControlName="gender" [value]="gender">{{gender}}
-      </label>
-    </div>
-
-    <div *ngIf="buttonDisabled()"></div>
-    <button type="submit" class="btn btn-primary mybtn" [disabled]="disableBtn">SUBMIT</button>
-  </form>
+  </div>
 </div>

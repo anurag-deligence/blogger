@@ -1,15 +1,23 @@
-<p>comment works!</p>
-<div *ngIf="data" style="background-color: #e0e0ca">
-  <h2>{{data.title}}</h2>
-  <div id="description" innerHTML="{{data.description}}"></div>
+<div class="container-fluid">
+  <div *ngIf="data" style="background-color: #e0e0ca">
+    <h2><b>{{data.title}}</b></h2>
+    <div id="description" innerHTML="{{data.description}}"></div>
+  </div>
+  <br><br>
+  <h3><b>Comments</b></h3>
+
+  <div class="row" *ngFor="let comment of data.comments" style="background-color: #b6f3ff">
+    <div class="col-sm-8">
+      <h4>{{comment.email}}</h4>
+      <div innerHTML="<h5>{{comment.comment}}</h5>"></div>
+    </div>
+    <div class="col-sm-4">
+      <span *ngIf="user.role == 'admin'|| comment.email == user.email">
+        <button (click)="delCom(comment._id,data._id)" class="btn btn-danger">Delete</button>
+      </span>
+    </div>
+    <br>
+  </div>
+  <textarea [froalaEditor] rows="7" cols="50" ngModel name="comment" #comment></textarea>
+  <button (click)=addComments(data._id,comment)>Comment</button>
 </div>
-<br><br>
-<div *ngFor="let comment of comments" style="background-color: #b6f3ff">
-  {{comment.email}}
-  <div innerHTML="{{comment.comment}}"></div>
-  <span *ngIf="user.role == 'admin'|| comment.email == user.email">
-    <button (click)="delCom(comment.comment,data._id)" class="btn btn-danger">Delete</button>
-  </span>
-</div>
-<textarea [froalaEditor] rows="7" cols="50" ngModel name="comment" #comment></textarea>
-<button (click)=addComments(data._id,comment)>Comment</button>

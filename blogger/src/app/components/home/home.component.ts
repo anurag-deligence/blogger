@@ -20,9 +20,9 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.authservice.getHome({ pageNo: this.page }).subscribe(
       (response: any) => {
+        console.log(response);
         this.blogs = response.data;
         this.totalpage = response.totalPage;
-        console.log(this.totalpage);
         this.araays = [];
         for (let i = 0; i < this.totalpage; i++)
           this.araays.push(i + 1);
@@ -35,6 +35,7 @@ export class HomeComponent implements OnInit {
   previous() {
     if (this.page != 1)
       this.page = this.page - 1;
+    console.log("this", this)
     this.ngOnInit();
   }
 
@@ -44,9 +45,10 @@ export class HomeComponent implements OnInit {
     this.ngOnInit();
   }
 
-  pageclick(value) {
+  pageclick(value, event) {
     this.page = value;
+    event.path[0].classList.remove('active');
+    event.path[0].classList.add('active');
     this.ngOnInit();
   }
-
 }

@@ -5,7 +5,12 @@ const blogSchema = new Schema({
   title: { type: String },
   description: { type: String },
   postType: { type: String, default: 'private' },
-  createdAt: { type: Date, default: Date.now }
+  createdAt: { type: Date, default: Date.now },
+  comments: [{
+    comment: { type: String },
+    email: { type: String },
+    createdAt: { type: Date, default: Date.now }
+  }]
 })
 
 const Blog = mongoose.model('Blog', blogSchema);

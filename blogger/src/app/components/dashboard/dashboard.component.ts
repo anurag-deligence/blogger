@@ -13,20 +13,20 @@ export class DashboardComponent implements OnInit {
 
   constructor(private authservice: AuthService, private router: Router, private route: ActivatedRoute) { }
   araays: Array<number> = [];
-  commentsUser: any;
   role: String;
   totalpage: number;
   blogs: any;
   myBlogs: any;
   page = 1;
   ngOnInit() {
+    console.log(this.page);
     this.authservice.getDashboard({ pageNo: this.page }).subscribe(
       (response: any) => {
+        console.log("cdvr", response);
         this.blogs = response.data;
         this.myBlogs = response.myBlogsId;
         this.totalpage = response.totalPage;
         this.role = response.role;
-        this.commentsUser = response.comments;
         this.araays = [];
         for (let i = 0; i < this.totalpage; i++)
           this.araays.push(i + 1);
@@ -62,13 +62,13 @@ export class DashboardComponent implements OnInit {
         )
         Swal.fire(
           'Deleted!',
-          'Your imaginary file has been deleted.',
+          'Your blog has been deleted.',
           'success'
         )
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire(
           'Cancelled',
-          'Your imaginary file is safe :)',
+          'Your blog is safe :)',
           'error'
         )
       }

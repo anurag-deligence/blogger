@@ -49,13 +49,13 @@ export class MyBlogComponent implements OnInit {
         )
         Swal.fire(
           'Deleted!',
-          'Your imaginary file has been deleted.',
+          'Your blog has been deleted.',
           'success'
         )
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire(
           'Cancelled',
-          'Your imaginary file is safe :)',
+          'Your blog is safe :)',
           'error'
         )
       }

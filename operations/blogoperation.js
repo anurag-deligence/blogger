@@ -21,7 +21,7 @@ module.exports.deleteBlog = (blogId, callback) => {
   BlogUser.findByIdAndDelete(blogId, callback);
 }
 
-module.exports.updateBlog = function (data, callback) {
+module.exports.updateBlog = (data, callback) => {
   var blogId = data.id;
   var data = {
     title: data.title,
@@ -34,4 +34,24 @@ module.exports.updateBlog = function (data, callback) {
 
 module.exports.findAllByType = (callback) => {
   BlogUser.find({ postType: 'public' }, callback);
+}
+
+module.exports.deleteUsersBlog = async (blogs, callback) => {
+  for (let blog of blogs) {
+    var blogId = { "_id": mongoose.Types.ObjectId(blog) };
+    await BlogUser.findOneAndDelete(blogId, callback);
+  }
+  return callback;
+}
+
+module.exports.addComment = (details, callback) => {
+  var blogId = { "_id": mongoose.Types.ObjectId(details.blogId) };
+  var data = { $push: { comments: { comment: details.userComments, email: details.email } } }
+  BlogUser.findOneAndUpdate(blogId, data, { safe: true, upsert: true }, callback);
+}
+
+module.exports.deleteComment = (commentId, blogId, callback) => {
+  var blogId = { '_id': mongoose.Types.ObjectId(blogId) };
+  var data = { $pull: { comments: { '_id': mongoose.Types.ObjectId(commentId) } } };
+  BlogUser.findOneAndUpdate(blogId, data, callback);
 }

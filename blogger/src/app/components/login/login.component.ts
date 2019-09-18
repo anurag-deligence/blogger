@@ -10,12 +10,14 @@ import Swal from 'sweetalert2';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-
+  @ViewChild('fp', { static: false }) fp: NgForm;
   @ViewChild('loginForm', { static: false }) loginForm: NgForm;
   user = {
     email: '',
     password: ''
   }
+  fun: boolean = false;
+  fun2: boolean = true;
 
   constructor(
     private authService: AuthService,
@@ -47,6 +49,32 @@ export class LoginComponent implements OnInit {
         console.log("this is error", error);
       }
     )
+  }
+
+  forgetPassword() {
+    this.user.email = this.fp.value.email;
+    this.authService.forgetPassword(this.user).subscribe(
+      (response: any) => {
+        console.log(response)
+        if (response.status === true)
+          Swal.fire("Mail Sent")
+        else
+          Swal.fire("User Not Found")
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+  }
+
+  changePage() {
+    this.fun = true;
+    this.fun2 = false;
+  }
+
+  changeAgain() {
+    this.fun = false;
+    this.fun2 = true;
   }
 
 }

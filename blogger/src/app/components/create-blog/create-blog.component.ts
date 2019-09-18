@@ -31,7 +31,7 @@ export class CreateBlogComponent implements OnInit {
     this.authService.createBlog(this.user).subscribe(
       (response) => {
         console.log(response);
-        Swal.fire("Done");
+        Swal.fire("Blog Is Created");
         this.cb.reset();
       },
       (error) => {

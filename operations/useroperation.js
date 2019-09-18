@@ -63,3 +63,7 @@ module.exports.showMyBlog = (email, callback) => {
     .exec((callback));
 }
 
+module.exports.deleteAccount = (email, callback) => {
+  var query = { email: email };
+  User.findOneAndDelete(query, callback);
+}

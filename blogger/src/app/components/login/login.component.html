@@ -1,19 +1,43 @@
-<div class="main">
-  <h2 class="text-center">LOGIN</h2>
-  <hr>
-  <form (ngSubmit)="login()" #loginForm="ngForm">
-    <div class="eap">
-      <label for="email">EMAIL</label>
-      <input type="text" class="form-control" id="email" ngModel name='email'>
+<div class=container-fluid>
+  <input type="text" class="form-control" id="search" ngModel name='search' #search>
+  <button ngModel name="searchBtn" (click)="search(search)">Search</button>
+  <div class="row">
+    <div class="col-sm-4">
+      <img
+        src="https://images.pexels.com/photos/914931/pexels-photo-914931.jpeg?cs=srgb&dl=beautiful-caucasian-connection-914931.jpg&fm=jpg"
+        alt="Girl in a jacket" style="width:600px;height:450px;">
     </div>
+    <div class="col-sm-4 starting" [hidden]=fun>
+      <h2 class="text-center">LOGIN</h2>
+      <hr>
+      <form (ngSubmit)="login()" #loginForm="ngForm">
+        <div class="eap">
+          <label for="email">EMAIL</label>
+          <input type="text" class="form-control" id="email" ngModel name='email'>
+        </div>
 
-    <div class="eap">
-      <label for="password">PASSWORD</label>
-      <input type="password" class="form-control" id="password" ngModel name='password'>
+        <div class="eap">
+          <label for="password">PASSWORD</label>
+          <input type="password" class="form-control" id="password" ngModel name='password'>
+        </div>
+
+        <button type="submit" class="btn btn-success mybtn">SUBMIT</button>
+        <hr>
+        <button type="button" (click)="changePage()" class="btn btn-link">FORGET PASSWORD</button>
+      </form>
     </div>
-
-    <button type="submit" class="btn btn-success mybtn">SUBMIT</button>
-    <hr>
-    <a routerLink="/forgetpassword"><span class="glyphicon glyphicon-user">FORGET PASSWORD</span></a>
-  </form>
+    <div class="col-sm-4 starting" [hidden]=fun2>
+      <h2 class="text-center">Forget Password</h2>
+      <form (ngSubmit)="forgetPassword()" #fp="ngForm">
+        <div class="eap">
+          <input type="text" class="form-control" ngModel name='email' placeholder='Enter the Registerd Email'>
+        </div>
+        <div class="eap">
+          <button type="submit" class="btn btn-success mybtn">RESET PASSWORD</button>
+        </div>
+        <hr>
+        <button type="button" (click)="changeAgain()" class="btn btn-link">LOGIN</button>
+      </form>
+    </div>
+  </div>
 </div>

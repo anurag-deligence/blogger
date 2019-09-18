@@ -1,3 +1,27 @@
+.ht{
+  margin-top: 62px;
+  height: 900px;
+  background-color: dodgerblue;
+  /* background: url("https://images.pexels.com/photos/2081982/pexels-photo-2081982.jpeg?cs=srgb&dl=brown-close-up-color-2081982.jpg&fm=jpg") */
+}
+
+body,html{
+ height: 100%;
+ margin: 0;
+}
+
+.container-fluid {
+  padding: 50px;
+  position: absolute;
+  margin: 40px 100px;
+}
+
+.starting{
+  padding: 40px;
+  font-family:Verdana;
+  font-size: 60px;
+  color: white
+}
 
 .btn{
   width: 40%;
@@ -11,4 +35,8 @@
 
 .dat{
   margin-left: 20px !important;
+}
+
+.active{
+  background-color: blue;
 }

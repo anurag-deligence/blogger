@@ -3,16 +3,15 @@ const router = express.Router();
 const User = require("../models/user");
 const Users = require('../operations/useroperation');
 const BlogUsers = require("../operations/blogoperation");
-const Comments = require("../operations/commentoperation")
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const config = require('../config/database');
 const nodemail = require('../config/nodemails');
 const async = require("async");
+const multer = require("multer");
 
 router.post('/home', (req, res, next) => {
   pageNo = req.body.pageNo;
-  console.log(req.body.pageNo);
   BlogUsers.findAllByType((err, docs) => {
     if (err)
       throw err
@@ -62,6 +61,24 @@ router.post('/forgetpassword', (req, res, next) => {
   })
 });
 
+router.post('/forgetpassword/:id', (req, res, next) => {
+  var { userid, npassword, ncpassword } = req.body;
+  var userid = JSON.parse(userid);
+  Users.getUserByUserName(userid, (err, user) => {
+    if (err)
+      throw err
+    if (!user)
+      res.json("email not registered");
+    Users.updatePassword(user.email, npassword, (err, docs) => {
+      if (err)
+        throw err
+      else
+        res.json({ msg: "Updated" })
+    })
+  })
+
+});
+
 router.post('/auth', (req, res, next) => {
   var { email, password } = req.body;
 
@@ -75,12 +92,18 @@ router.post('/auth', (req, res, next) => {
       if (err)
         throw err;
       if (isMatch) {
-        const token = jwt.sign(user.toJSON(), config.secret, { expiresIn: '2h' });
-        var { id, name, email, role } = user;
+        var o = {
+          name: user.name,
+          email: user.email,
+          role: user.role,
+          "_id": user._id
+        }
+        const token = jwt.sign(o, config.secret, { expiresIn: '2h' });
+        var { name, email, role } = user;
         res.json({
           status: true,
           token: token,
-          user: { id, name, email, role }
+          user: { name, email, role }
         })
       }
       else
@@ -90,6 +113,7 @@ router.post('/auth', (req, res, next) => {
 });
 
 router.get('/profile', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+  console.log("jone:", req.user);
   res.json(req.user)
 });
 
@@ -103,14 +127,12 @@ router.post('/dashboard', passport.authenticate('jwt', { session: false }), (req
         if (err)
           throw err
         else
-          var result = await Comments.findComments(blogs);
-        res.json({
-          comments: result,
-          totalPage: docs.length / 2,
-          data: blogs,
-          myBlogsId: req.user.blog,
-          role: req.user.role
-        })
+          res.json({
+            totalPage: docs.length / 2,
+            data: blogs,
+            myBlogsId: req.user.blog,
+            role: req.user.role
+          })
       })
   })
 });
@@ -135,7 +157,7 @@ router.post('/changePassword', passport.authenticate('jwt', { session: false }),
             res.json({ msg: "Updated" })
         })
       else
-        return res.json({ status: true, msg: 'Incorrect Password' })
+        return res.json({ status: false, msg: 'Incorrect Password' })
     })
   })
 });
@@ -161,11 +183,8 @@ router.post('/editBlog/:id', passport.authenticate('jwt', { session: false }), (
   BlogUsers.findByBlogId(blogId, (err, docs) => {
     if (err)
       throw err
-    else {
-      console.log("docs", docs);
+    else
       res.json(docs)
-    }
-
   })
 })
 
@@ -207,56 +226,74 @@ router.get('/myblog', passport.authenticate('jwt', { session: false }), (req, re
 
 router.post('/comments/:blogId', passport.authenticate('jwt', { session: false }), (req, res, next) => {
   var blogId = req.body.blogId;
-
-  async.parallel([
-    (callback) => {
-      BlogUsers.findByBlogId(blogId, (err, docs) => {
-        callback(err, docs)
-      })
-    },
-    (callback) => {
-      Comments.comments(blogId, (err, data) => {
-        if (data)
-          callback(err, data.comments)
-        else
-          callback(err, null)
-      })
-    }
-  ], (err, result) => {
-    res.json(result)
+  BlogUsers.findByBlogId(blogId, (err, docs) => {
+    if (err)
+      throw err
+    else
+      res.json({ data: docs })
   })
 })
 
 router.post('/addComments', passport.authenticate('jwt', { session: false }), (req, res, next) => {
   var { userComments, blogId } = req.body;
   details = { email: req.user.email, userComments, blogId }
-  Comments.comments(details.blogId, async (err, docs) => {
+  BlogUsers.addComment(details, (err, docs) => {
     if (err)
       throw err
-    else if (docs)
-      Comments.updateComments(details, (err, docs) => {
-        if (err)
-          throw err
-        else
-          res.json(docs)
-      })
     else
-      Comments.addComments(details, (err, docs) => {
-        if (err)
-          throw err
-        else
-          res.json(docs)
-      })
+      res.json(docs)
   })
 })
 
 router.post('/deleteComment', passport.authenticate('jwt', { session: false }), (req, res, next) => {
-  var { comment, id } = req.body
-  Comments.deleteComment(comment, id, (err, docs) => {
+  var { commentId, blogId } = req.body;
+  BlogUsers.deleteComment(commentId, blogId, (err, docs) => {
     if (err)
       throw err
-    else
+    else {
       res.json('done');
+    }
+  })
+})
+
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'blogger/src/assets/')
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  }
+})
+
+var upload = multer({ storage: storage });
+router.post('/upload', passport.authenticate('jwt', { session: false }), upload.single('image'), (req, res, next) => {
+  User.findOneAndUpdate({ email: req.user.email }, { image: req.file.filename }, (err, docs) => {
+    if (err)
+      console.log('error');
+    else {
+      res.json('done');
+    }
+  })
+})
+
+router.delete('/deleteAccount', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+  var { email, blog } = req.user;
+  async.parallel([
+    (callback) => {
+      BlogUsers.deleteUsersBlog(blog, (err, data) => {
+        callback(err, data)
+      })
+    },
+    (callback) => {
+      Users.deleteAccount(email, (err, docs) => {
+        callback(err, docs)
+      })
+    }
+  ], (err, result) => {
+    if (result)
+      res.json({ status: true })
+    else
+      res.json({ status: false })
   })
 })
 

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-comment',
@@ -11,7 +12,6 @@ export class CommentComponent implements OnInit {
   user: any;
   blogId: any;
   data: any;
-  comments: Array<String>;
   constructor(private authservice: AuthService,
     private router: Router,
     private route: ActivatedRoute) { }
@@ -23,8 +23,7 @@ export class CommentComponent implements OnInit {
     this.user = user;
     this.authservice.userComment({ blogId: this.blogId }).subscribe(
       (response: any) => {
-        this.data = response[0];
-        this.comments = response[1];
+        this.data = response.data;
         console.log(this.data);
       },
       (error) => {
@@ -49,18 +48,41 @@ export class CommentComponent implements OnInit {
     )
   }
 
-  delCom(comment, id) {
-    console.log('here')
-    this.authservice.deleteComment({ comment: comment, id: id }).subscribe(
-      (response: any) => {
-        console.log(response);
-        this.ngOnInit();
-      },
-      (error) => {
-        console.log(error)
-        this.router.navigate(['/login'], { relativeTo: this.route });
+  delCom(commentId, blogId) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will not be able to recover this !',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, keep it'
+    }).then((result) => {
+      if (result.value) {
+        this.authservice.deleteComment({ commentId, blogId }).subscribe(
+          (response: any) => {
+            console.log(response);
+            this.ngOnInit();
+          },
+          (error) => {
+            console.log(error)
+            this.router.navigate(['/login'], { relativeTo: this.route });
+          }
+        )
+        Swal.fire(
+          'Deleted!',
+          'Your comment has been deleted.',
+          'success'
+        )
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire(
+          'Cancelled',
+          'Your comment is safe :)',
+          'error'
+        )
       }
-    )
+    })
   }
 
 }
+
+

@@ -32,7 +32,6 @@ export class EditBlogComponent implements OnInit {
         this.user.title = response.title;
         this.user.description = response.description;
         this.user.postType = response.postType;
-
       },
       (error) => {
         console.log("this is error", error);
@@ -50,7 +49,7 @@ export class EditBlogComponent implements OnInit {
     this.authservice.updateBlog(this.user).subscribe(
       (response) => {
         console.log(response);
-        Swal.fire("Done");
+        Swal.fire("Blog Is Created");
         // this.cb.reset();
         this.router.navigate(['/dashboard']);
       },

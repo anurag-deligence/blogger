@@ -40,15 +40,20 @@ export class ChangePasswordComponent implements OnInit {
       this.authservice.getChangePassword(this.userpass).subscribe(
         (response: any) => {
           console.log("this is response", response);
-          this.authservice.logout();
-          this.router.navigate(['/login'])
+          if (response.msg == 'Incorrect Password')
+            Swal.fire("Incorrect Old Password");
+          else if (response.msg == 'Updated') {
+            Swal.fire("Password Updated");
+            this.router.navigate(['/dashboard'])
+          }
         },
         (error) => {
           console.log("this is error", error);
+          this.router.navigate(['/login']);
         }
       )
     }
     else
-      Swal.fire("New Password and Confirm Password Not Same ")
+      Swal.fire("New Password and Confirm Password Are Not Same ")
   }
 }

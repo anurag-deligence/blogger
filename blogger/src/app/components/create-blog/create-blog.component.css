@@ -6,6 +6,16 @@ label{
   font-size: 25px;
 }
 
-.container{
-  font-size: 20px
+.container-fluid{
+  margin-top: 70px;
+  font-size: 20px;
+  width: 85%
+}
+
+li{
+  list-style-type: none;
+}
+
+.btn{
+  margin-left: 40%
 }

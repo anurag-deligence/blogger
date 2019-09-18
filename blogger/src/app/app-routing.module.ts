@@ -24,7 +24,8 @@ const routes: Routes = [
   { path: 'create-blog', component: CreateBlogComponent },
   { path: 'edit_blog/:id', component: EditBlogComponent },
   { path: 'myblog', component: MyBlogComponent },
-  { path: 'comment/:id', component: CommentComponent }
+  { path: 'comment/:id', component: CommentComponent },
+  { path: 'forgetpassword/:id', component: ForgetPasswordComponent }
 ];
 
 @NgModule({

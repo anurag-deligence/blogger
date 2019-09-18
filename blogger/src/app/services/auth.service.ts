@@ -33,6 +33,12 @@ export class AuthService {
     return this.http.post(this.url + '/forgetpassword', user, { headers });
   }
 
+  forgetpasswordwithid(user) {
+    let headers = new HttpHeaders();
+    headers = headers.append('Content-Type', 'application/json');
+    return this.http.post(this.url + '/forgetpassword/:id', user, { headers });
+  }
+
   loginUser(user) {
     let headers = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json');
@@ -65,6 +71,15 @@ export class AuthService {
     headers = headers.append('Authorization', "Bearer " + this.authToken)
     headers = headers.append('Content-Type', 'application/json');
     return this.http.get(this.url + '/profile', { headers });
+  }
+
+  getUpdatePic(imageUser) {
+    let headers = new HttpHeaders();
+    this.loadToken;
+    headers = headers.append('Authorization', "Bearer " + this.authToken)
+    let formData = new FormData();
+    formData.append('image', imageUser, imageUser.name);
+    return this.http.post(this.url + '/upload', formData, { headers });
   }
 
   getChangePassword(user) {
@@ -143,5 +158,13 @@ export class AuthService {
     this.authToken = null;
     this.user = null;
     localStorage.clear();
+  }
+
+  deleteAccount() {
+    let headers = new HttpHeaders();
+    this.loadToken;
+    headers = headers.append('Authorization', "Bearer " + this.authToken)
+    headers = headers.append('Content-Type', 'application/json');
+    return this.http.delete(this.url + '/deleteAccount', { headers })
   }
 }

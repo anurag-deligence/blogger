@@ -6,9 +6,21 @@ label{
   margin-bottom: 2% 
 }
 
-.container{
-  font-size: 20px
+.container-fluid{
+  font-size: 20px;
+  margin-top: 70px;
+  font-size: 20px;
+  width: 85%
 }
+
+.btn{
+  margin-left: 40%
+}
+
+li{
+  list-style-type: none;
+}
+
 
 
 

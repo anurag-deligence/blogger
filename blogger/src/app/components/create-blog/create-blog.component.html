@@ -1,4 +1,4 @@
-<form class="container" (ngSubmit)="createblog()" #cb="ngForm">
+<form class="container-fluid" (ngSubmit)="createblog()" #cb="ngForm">
   <div class=a>
     <div>
       <label for="title">TITLE</label>
@@ -9,19 +9,19 @@
   </div>
   <div class=a>
     <label for="description">DESCRIPTION</label>
-    <textarea [froalaEditor] rows="20" cols="200" ngModel name="description" id="description"></textarea>
+    <textarea [froalaEditor] rows="20" cols="200" ngModel name="description" required></textarea>
   </div>
 
   <div class="a row">
     <div class="col-sm-2">
       <label for="postType">Post Type</label>
     </div>
-    <div class="col-sm-2">
-      <li><input type="radio" ngModel name="postType" value="public">PUBLIC</li>
-      <li><input type="radio" ngModel name="postType" value="private">PRIVATE</li>
+    <div class="col-sm-1">
+      <li><input type="radio" ngModel name="postType" value="public" required>PUBLIC</li>
+      <li><input type="radio" ngModel name="postType" value="private" required>PRIVATE</li>
     </div>
   </div>
 
-  <button type="submit" class="btn btn-default">SUBMIT</button>
+  <button type="submit" class="btn btn-primary" [disabled]="cb.invalid">SUBMIT</button>
 
 </form>
