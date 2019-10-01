@@ -1,0 +1,10 @@
+.container-fluid{
+  width: 95%;
+  margin-top: 70px
+}
+
+.bs{
+  border: 1px solid black;
+  box-shadow: 2px gray;
+  padding: 10px;
+}

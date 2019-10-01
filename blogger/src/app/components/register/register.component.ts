@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Validators } from '@angular/forms';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { AuthService } from "../../services/auth.service";
 import { Router } from '@angular/router';
 import { NgFlashMessageService } from 'ng-flash-messages';
@@ -21,7 +20,8 @@ export class RegisterComponent implements OnInit {
   //   email: '',
   //   password: ''
   // }
-  genders = ['Male', 'Female', 'Others']
+  genders = ['Male', 'Female', 'Others'];
+  username: String;
   name: String;
   email: String;
   password: String;
@@ -38,10 +38,11 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit() {
     this.signupForm = new FormGroup({
-      'name': new FormControl('', [Validators.required]),
-      'email': new FormControl('', [Validators.required, Validators.email]),
-      'password': new FormControl('', Validators.required),
-      'gender': new FormControl('Male', Validators.required)
+      'name': new FormControl('', [Validators.required, this.trim]),
+      'userName': new FormControl('', [Validators.required, Validators.minLength(4), this.trim]),
+      'email': new FormControl('', [Validators.required, Validators.email, this.trim]),
+      'password': new FormControl('', [Validators.required, this.trim]),
+      'gender': new FormControl('Male', [Validators.required, this.trim])
     });
   }
 
@@ -63,14 +64,36 @@ export class RegisterComponent implements OnInit {
           this.router.navigate(['/login']);
         }
         else {
-          this.ngFlashMessageService.showFlashMessage({
-            messages: ["Email is already registered!"],
-            dismissible: false,
-            timeout: false,
-            type: 'danger'
-          });
-          this.signupForm.reset();
+          var t = response.error[0];
+          console.log("t", t)
+          if (t == 'email') {
+            console.log("here1");
+            this.ngFlashMessageService.showFlashMessage({
+              messages: ["Email is already registered!"],
+              dismissible: false,
+              timeout: false,
+              type: 'danger'
+            });
+          }
+          else if (t == "userName") {
+            console.log("here2");
+            this.ngFlashMessageService.showFlashMessage({
+              messages: ["UserName is already taken!"],
+              dismissible: false,
+              timeout: false,
+              type: 'danger'
+            });
+          }
+          else {
+            this.ngFlashMessageService.showFlashMessage({
+              messages: ["Something Wrong!"],
+              dismissible: false,
+              timeout: false,
+              type: 'danger'
+            });
+          }
         }
+        this.signupForm.reset();
       },
       (error) => {
         console.log("this is error", error);
@@ -86,6 +109,15 @@ export class RegisterComponent implements OnInit {
     // console.log(this.user.name)
     // console.log(this.user.username)
     // console.log(this.user.email)
+  }
+
+  trim(control: AbstractControl): ValidationErrors | null {
+    if (control.value !== null && control.value.trim() != "") {
+      return null;
+    }
+    else {
+      return { 'trim': true }
+    }
   }
 
 }

@@ -45,6 +45,7 @@ export class AuthService {
     return this.http.post(this.url + '/auth', user, { headers });
   }
 
+
   storeUserData(token, user) {
     localStorage.setItem('token_id', token);
     localStorage.setItem('user', JSON.stringify(user));
@@ -79,7 +80,16 @@ export class AuthService {
     headers = headers.append('Authorization', "Bearer " + this.authToken)
     let formData = new FormData();
     formData.append('image', imageUser, imageUser.name);
+    console.log("here:", formData);
     return this.http.post(this.url + '/upload', formData, { headers });
+  }
+
+  searchUser(user) {
+    return this.http.post(this.url + '/searchUser', user);
+  }
+
+  searchKeyup(user) {
+    return this.http.post(this.url + '/searchKeyup', user);
   }
 
   getChangePassword(user) {

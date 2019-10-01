@@ -1,8 +1,6 @@
 const nodemailer = require('nodemailer');
 //require('dotenv').config();
-module.exports.nodeMail = (userObject, callback) => {
-  var userObject = JSON.stringify(userObject);
-  var data = Buffer.from(userObject).toString('base64');
+module.exports.nodeMail = (userObject, data, callback) => {
   nodemailer.createTestAccount((err, account) => {
     let transporter = nodemailer.createTransport({
       service: 'gmail',

@@ -11,7 +11,7 @@ import { CreateBlogComponent } from './components/create-blog/create-blog.compon
 import { EditBlogComponent } from './components/edit-blog/edit-blog.component';
 import { MyBlogComponent } from './components/my-blog/my-blog.component';
 import { CommentComponent } from './components/comment/comment.component';
-
+import { SearchUserComponent } from './components/search-user/search-user.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -25,7 +25,8 @@ const routes: Routes = [
   { path: 'edit_blog/:id', component: EditBlogComponent },
   { path: 'myblog', component: MyBlogComponent },
   { path: 'comment/:id', component: CommentComponent },
-  { path: 'forgetpassword/:id', component: ForgetPasswordComponent }
+  { path: 'forgetpassword/:id', component: ForgetPasswordComponent },
+  { path: 'searchuser', component: SearchUserComponent }
 ];
 
 @NgModule({

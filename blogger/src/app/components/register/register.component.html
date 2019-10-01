@@ -1,9 +1,9 @@
 <div class=container-fluid>
   <div class="row">
-    <div class="col-sm-4">
+    <div class="col-sm-4 imageplace">
       <img
         src="https://images.pexels.com/photos/914931/pexels-photo-914931.jpeg?cs=srgb&dl=beautiful-caucasian-connection-914931.jpg&fm=jpg"
-        alt="Girl in a jacket" style="width:600px;height:450px;">
+        alt="Image" style="width:600px;height:450px;">
     </div>
     <div class="col-sm-4 starting">
       <h2 class="text-center">SIGN UP</h2>
@@ -13,6 +13,15 @@
         <div class="form-group">
           <label for="name">Name</label>
           <input type="text" class="form-control" id="name" formControlName="name">
+        </div>
+
+        <div class="form-group">
+          <label for="userName">Username</label>
+          <input type="text" class="form-control" id="userName" formControlName="userName">
+          <span *ngIf="!signupForm.get('userName').valid && signupForm.get('userName').touched" class="help-block"
+            style="color:red">
+            Minimum length 4 Characters.
+          </span>
         </div>
 
         <div class="form-group">

@@ -1,0 +1,21 @@
+<div class="container-fluid">
+  <div class="row" *ngIf="data !== null; else nulldata">
+    <div class="col-sm-8">
+      <div class="bs">
+        <div *ngFor="let blog of data.blogs">
+          <h2><b>{{blog.title}}</b></h2>
+          <div id="description" innerHTML="{{blog.description}}"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+      <img [src]=imageStr style=" border-radius: 50%; width: 300px; height: 300px">
+      {{data.name}}
+    </div>
+  </div>
+
+  <ng-template #nulldata>
+    <h1><b>NO USER FOUND </b></h1>
+  </ng-template>
+</div>

@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { NgFlashMessagesModule } from 'ng-flash-messages';
+import { NgxUiLoaderModule } from 'ngx-ui-loader';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -22,6 +23,7 @@ import { CreateBlogComponent } from './components/create-blog/create-blog.compon
 import { EditBlogComponent } from './components/edit-blog/edit-blog.component';
 import { MyBlogComponent } from './components/my-blog/my-blog.component';
 import { CommentComponent } from './components/comment/comment.component';
+import { SearchUserComponent } from './components/search-user/search-user.component';
 
 @NgModule({
   declarations: [
@@ -37,18 +39,20 @@ import { CommentComponent } from './components/comment/comment.component';
     CreateBlogComponent,
     EditBlogComponent,
     MyBlogComponent,
-    CommentComponent
+    CommentComponent,
+    SearchUserComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,   //this used for template driven approch
     HttpClientModule,
-    ReactiveFormsModule,
+    ReactiveFormsModule,  // this is used for reactive form approch
     FroalaEditorModule.forRoot(),
     FroalaViewModule.forRoot(),
     CommonModule,
-    NgFlashMessagesModule.forRoot()
+    NgFlashMessagesModule.forRoot(),
+    NgxUiLoaderModule
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]

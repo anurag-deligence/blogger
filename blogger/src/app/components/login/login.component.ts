@@ -1,8 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
+
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 @Component({
   selector: 'app-login',
@@ -12,16 +14,14 @@ import Swal from 'sweetalert2';
 export class LoginComponent implements OnInit {
   @ViewChild('fp', { static: false }) fp: NgForm;
   @ViewChild('loginForm', { static: false }) loginForm: NgForm;
-  user = {
-    email: '',
-    password: ''
-  }
+  user = { email: '', password: '' };
   fun: boolean = false;
   fun2: boolean = true;
 
   constructor(
     private authService: AuthService,
-    private router: Router) { }
+    private router: Router,
+    private ngxService: NgxUiLoaderService) { }
 
   ngOnInit() {
   }
@@ -52,9 +52,11 @@ export class LoginComponent implements OnInit {
   }
 
   forgetPassword() {
+    this.ngxService.startLoader('loader-01');
     this.user.email = this.fp.value.email;
     this.authService.forgetPassword(this.user).subscribe(
       (response: any) => {
+        this.ngxService.stopLoader('loader-01');
         console.log(response)
         if (response.status === true)
           Swal.fire("Mail Sent")

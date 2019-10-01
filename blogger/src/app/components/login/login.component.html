@@ -1,6 +1,4 @@
 <div class=container-fluid>
-  <input type="text" class="form-control" id="search" ngModel name='search' #search>
-  <button ngModel name="searchBtn" (click)="search(search)">Search</button>
   <div class="row">
     <div class="col-sm-4">
       <img
@@ -28,6 +26,7 @@
     </div>
     <div class="col-sm-4 starting" [hidden]=fun2>
       <h2 class="text-center">Forget Password</h2>
+
       <form (ngSubmit)="forgetPassword()" #fp="ngForm">
         <div class="eap">
           <input type="text" class="form-control" ngModel name='email' placeholder='Enter the Registerd Email'>
@@ -37,6 +36,9 @@
         </div>
         <hr>
         <button type="button" (click)="changeAgain()" class="btn btn-link">LOGIN</button>
+        <div style="position: relative">
+          <ngx-ui-loader [loaderId]="'loader-01'"></ngx-ui-loader>
+        </div>
       </form>
     </div>
   </div>

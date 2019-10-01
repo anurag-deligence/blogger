@@ -24,8 +24,7 @@ export class ForgetPasswordComponent implements OnInit {
   }
 
   resetPassword() {
-    var id = this.route.snapshot.params.id;
-    this.user.userid = atob(id);
+    this.user.userid = this.route.snapshot.params.id;
     this.user.npassword = this.fp.value.npassword;
     this.user.ncpassword = this.fp.value.ncpassword;
     if (this.user.npassword == this.user.ncpassword)
@@ -36,6 +35,8 @@ export class ForgetPasswordComponent implements OnInit {
             Swal.fire("Password Updated");
             this.router.navigate(['/login']);
           }
+          else if (response.msg == 'Link Expired')
+            Swal.fire(response.msg)
           else
             Swal.fire("User Not Found")
         },

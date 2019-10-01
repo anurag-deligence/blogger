@@ -8,11 +8,11 @@
 
   <div class="row" *ngFor="let comment of data.comments" style="background-color: #b6f3ff">
     <div class="col-sm-8">
-      <h4>{{comment.email}}</h4>
+      <h4>{{comment.userName}}</h4>
       <div innerHTML="<h5>{{comment.comment}}</h5>"></div>
     </div>
     <div class="col-sm-4">
-      <span *ngIf="user.role == 'admin'|| comment.email == user.email">
+      <span *ngIf="user.role == 'admin'|| comment.userName == user.userName">
         <button (click)="delCom(comment._id,data._id)" class="btn btn-danger">Delete</button>
       </span>
     </div>

@@ -1,4 +1,23 @@
-.navbar-nav .nav-link {
-    color: #f8f9fa;
-    font-size: 20px;
+li{
+  margin-right: 30px 
+}
+
+.fontstyle {
+  font-family: 'Manjari', sans-serif;
+  font-size: 25px;
+  color: whitesmoke
+}
+
+.select1{
+  margin-left: 20px;
+  height: 30px;
+}
+
+.select2{
+  height: 30px;
+  margin-left: 10px
+}
+
+.navbar{
+  background-color: teal ;
 }

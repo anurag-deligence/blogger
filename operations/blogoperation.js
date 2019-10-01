@@ -46,7 +46,7 @@ module.exports.deleteUsersBlog = async (blogs, callback) => {
 
 module.exports.addComment = (details, callback) => {
   var blogId = { "_id": mongoose.Types.ObjectId(details.blogId) };
-  var data = { $push: { comments: { comment: details.userComments, email: details.email } } }
+  var data = { $push: { comments: { comment: details.userComments, userName: details.userName } } }
   BlogUser.findOneAndUpdate(blogId, data, { safe: true, upsert: true }, callback);
 }
 
@@ -54,4 +54,9 @@ module.exports.deleteComment = (commentId, blogId, callback) => {
   var blogId = { '_id': mongoose.Types.ObjectId(blogId) };
   var data = { $pull: { comments: { '_id': mongoose.Types.ObjectId(commentId) } } };
   BlogUser.findOneAndUpdate(blogId, data, callback);
+}
+
+module.exports.searching = (value, callback) => {
+  console.log(value)
+  BlogUser.find({ "title": { $regex: ".*" + value.value + ".*" } }, (callback)).limit(5);
 }

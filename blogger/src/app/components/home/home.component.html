@@ -1,23 +1,18 @@
-<header class="ht">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-sm-5">
-        <img
-          src="https://images.pexels.com/photos/2081982/pexels-photo-2081982.jpeg?cs=srgb&dl=brown-close-up-color-2081982.jpg&fm=jpg"
-          alt="Girl in a jacket" style="width:500px;height:600px;">
-      </div>
-      <div class="col-sm-4 starting">
-        <p>BLOGU powers 34% of the internet.
-          Join the global community.</p>
-        <h2>CREATE YOUR BLOG</h2>
-        <button class="btn" routerLink="/register">Start Your Blog</button>
-      </div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-md-block col-lg-7">
+      <img class="effect" src="../../../assets/adult-assortment-background-1496183 (1).jpg" alt="Image">
+    </div>
+    <div class="col-sm-12 col-lg-4 starting">
+      <p>BLOGU powers 34% of the internet.
+        Join the global community.</p>
+      <h2>CREATE YOUR BLOG</h2>
+      <button class="btn" routerLink="/register">Start Your Blog</button>
     </div>
   </div>
-</header>
-
-<div class="des" *ngFor="let blog of blogs">
-  <div class="dat">
+</div>
+<div class="btndt" *ngFor="let blog of blogs">
+  <div class="tdes">
     <h1><b>{{ blog.title }}</b></h1>
     <div innerHTML="{{blog.description}}"></div>
   </div>
@@ -26,7 +21,6 @@
 <nav aria-label="Page navigation example">
   <ul class="pagination justify-content-center">
     <li class="page-item"><a class="page-link" (click)="previous()">Previous</a></li>
-    <!-- <li class="page-item" *ngFor="let araay of araays" (click)="qwerty($event)"> -->
     <li class="page-item" *ngFor="let araay of araays">
       <a class="page-link" (click)="pageclick(araay,$event)">{{araay}}</a>
     </li>

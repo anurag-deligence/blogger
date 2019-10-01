@@ -67,3 +67,26 @@ module.exports.deleteAccount = (email, callback) => {
   var query = { email: email };
   User.findOneAndDelete(query, callback);
 }
+
+module.exports.searchName = (body, callback) => {
+  var query = { [body.category]: body.type };
+  User.findOne(query)
+    .populate({
+      path: 'blog',
+      match: { postType: 'public' }
+    })
+    .exec((callback));
+}
+
+module.exports.resetPasswordData = (query, data, callback) => {
+  User.findOneAndUpdate(query, data, { new: true }, callback);
+}
+
+module.exports.getUserByResetToken = (userid, callback) => {
+  var query = { resetPasswordToken: userid }
+  User.findOne(query, callback);
+}
+
+module.exports.searching = (value, callback) => {
+  User.find({ [value.category]: { $regex: ".*" + value.value + ".*" } }, (callback));
+}

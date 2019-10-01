@@ -1,31 +1,19 @@
-.ht{
-  margin-top: 62px;
-  height: 900px;
-  background-color: dodgerblue;
-  /* background: url("https://images.pexels.com/photos/2081982/pexels-photo-2081982.jpeg?cs=srgb&dl=brown-close-up-color-2081982.jpg&fm=jpg") */
-}
-
-body,html{
- height: 100%;
- margin: 0;
-}
-
 .container-fluid {
-  padding: 50px;
-  position: absolute;
-  margin: 40px 100px;
+ background-color: teal;
+}
+
+.row{
+  padding: 150px 120px
 }
 
 .starting{
-  padding: 40px;
   font-family:Verdana;
   font-size: 60px;
   color: white
 }
 
 .btn{
-  width: 40%;
-  padding: 14px 28px;
+  padding: 20px;
   background-color:rgba(255, 123, 0, 0.883);
   color: white;
   font-size: 22px;
@@ -38,5 +26,22 @@ body,html{
 }
 
 .active{
-  background-color: blue;
+  background-color: lightblue;
+}
+
+.effect{
+  width:800px;
+  height:700px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.btndt{
+  margin: 50px 50px;
+  padding:40px
+}
+
+.tdes{
+  padding: 10px;
+  background-color: seashell;
+  box-shadow: 0 2px 2px rgb(203, 224, 195);
 }

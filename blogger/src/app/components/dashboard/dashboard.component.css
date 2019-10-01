@@ -2,21 +2,16 @@
   font-size: 20px;
 }
 
-.ht{
-  margin-top: 62px;
-  background-color: dodgerblue;
-  padding-bottom: 10px 
-}
-
-.container{
+.jumbotron{
+  padding: 80px;
+  background-color: teal;
   font-size: 80px;
   line-height:1.2;
   color: whitesmoke;
+  text-align: center;
 }
 
 .create{
-  margin-left: 30%;
-  width: 20%;
   padding: 10px 20px;
   background-color:rgba(255, 123, 0, 0.883);
   color: white;
@@ -25,3 +20,12 @@
   text-align: center; 
 }
 
+.dae{
+    text-align: right;
+  margin-right: 3%;
+  margin-top: 10px;
+}
+
+.btn{
+  margin-right: 7px;
+}

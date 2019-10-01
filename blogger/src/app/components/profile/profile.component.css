@@ -1,3 +1,24 @@
-.detailsH{
-  margin: 100px 40%;
+.centering{
+     padding: 28% 0px 5%;
+    text-align: center;
+}
+
+.btn{
+  vertical-align: bottom;
+}
+
+.dataCentering{
+  padding: 20% 1%;
+}
+
+h3{
+  margin-bottom: 20px;
+  text-align: left;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: 60px
+}
+
+.sizing{
+ font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+ font-size: 33px
 }

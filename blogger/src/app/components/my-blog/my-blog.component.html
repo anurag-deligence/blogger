@@ -1,4 +1,4 @@
-<div *ngIf="blogs" class="ht">
+<!-- <div *ngIf="blogs">
   <h1>Your Blogs:- </h1>
   <div *ngIf="blogs.length == 0; else data">
     Zero
@@ -16,4 +16,26 @@
       <hr>
     </div>
   </ng-template>
-</div>
+</div> -->
+
+<div class="container-fluid">
+  <div *ngIf="blogs">
+    <h1>Your Blogs:- </h1>
+    <div *ngIf="blogs.length == 0; else data">
+      Zero
+    </div>
+    <ng-template #data>
+      <div class="btndt" *ngFor="let blog of blogs">
+        <div class=tdes>
+          <h2>{{blog.title}}<span style="color:blue;font-size:25px;"> ({{blog.postType}})</span></h2>
+          <div id="description" innerHTML="{{blog.description}}"></div>
+        </div>
+        <div class="dae">
+          <button class="btn btn-info btn-md" (click)="editData(detail._id)">Edit</button>
+          <button class="btn btn-danger btn-md" (click)=deleteData(detail._id)>Delete</button>
+        </div>
+        <hr>
+      </div>
+
+    </ng-template>
+  </div>

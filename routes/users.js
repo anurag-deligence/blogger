@@ -29,46 +29,68 @@ router.post('/home', (req, res, next) => {
 })
 
 router.post('/register', (req, res, next) => {
-  var { name, email, password, gender } = req.body;
+  var { name, email, password, gender, userName } = req.body;
   let newUser = new User({
-    name, email, password, gender
+    name, email, password, gender, userName
   })
   Users.addUser(newUser, (err, user) => {
-    if (err)
-      res.json({ success: false, msg: 'failed to register user', error: err })
-    else
+    if (err) {
+      var field = err.errmsg.split('index: ')[1].split('_1 dup key:');
+      res.json({ success: false, msg: 'failed to register user', error: field })
+    } else
       res.json({ success: true, msg: 'user registered' })
   })
 });
 
 router.post('/forgetpassword', (req, res, next) => {
   var email = req.body.email;
-  Users.getUserByUserName(email, (err, user) => {
-    if (err)
-      throw err
-    else if (user !== null) {
-      nodemail.nodeMail(email, (err, info) => {
-        if (err)
-          throw err
-        else
-          res.json({ status: true })
+  async.waterfall([
+    (callback) => {
+      Users.getUserByUserName(email, (err, user) => {
+        callback(err, user)
       })
+    },
+    (user, callback) => {
+      if (user !== null) {
+        var query = { userName: user.userName };
+        console.log(query);
+        var resetToken = jwt.sign(query, config.secret);
+        var resetExpire = Date.now() + 3600000;
+        var data = { resetPasswordToken: resetToken, resetTokenExpires: resetExpire };
+        Users.resetPasswordData(query, data, (err, newdata) => callback(err, newdata))
+      }
+      else {
+        res.json({ status: false })
+      }
+    },
+    (newdata, callback) => {
+      console.log("docs", newdata);
+      if (newdata !== null)
+        nodemail.nodeMail(newdata.email, newdata.resetPasswordToken, (err, info) => {
+          callback(err, info);
+        })
     }
-    else {
-      console.log(user)
-      return res.json({ success: false, msg: 'User not found' })
-    }
+  ], (err, result) => {
+    if (err)
+      res.json({ status: false })
+    else
+      res.json({ status: true })
   })
 });
 
 router.post('/forgetpassword/:id', (req, res, next) => {
   var { userid, npassword, ncpassword } = req.body;
-  var userid = JSON.parse(userid);
-  Users.getUserByUserName(userid, (err, user) => {
+  console.log("token", userid);
+  Users.getUserByResetToken(userid, (err, user) => {
     if (err)
       throw err
-    if (!user)
-      res.json("email not registered");
+    if (!user) {
+      console.log(user);
+      res.json({ msg: "email not registered" });
+    }
+    if (user.resetTokenExpires < Date.now()) {
+      res.json({ msg: 'Link Expired' })
+    }
     Users.updatePassword(user.email, npassword, (err, docs) => {
       if (err)
         throw err
@@ -96,14 +118,15 @@ router.post('/auth', (req, res, next) => {
           name: user.name,
           email: user.email,
           role: user.role,
+          userName: user.userName,
           "_id": user._id
         }
         const token = jwt.sign(o, config.secret, { expiresIn: '2h' });
-        var { name, email, role } = user;
+        var { name, email, role, userName } = user;
         res.json({
           status: true,
           token: token,
-          user: { name, email, role }
+          user: { name, email, role, userName }
         })
       }
       else
@@ -236,7 +259,7 @@ router.post('/comments/:blogId', passport.authenticate('jwt', { session: false }
 
 router.post('/addComments', passport.authenticate('jwt', { session: false }), (req, res, next) => {
   var { userComments, blogId } = req.body;
-  details = { email: req.user.email, userComments, blogId }
+  details = { userName: req.user.userName, userComments, blogId }
   BlogUsers.addComment(details, (err, docs) => {
     if (err)
       throw err
@@ -267,6 +290,7 @@ var storage = multer.diskStorage({
 
 var upload = multer({ storage: storage });
 router.post('/upload', passport.authenticate('jwt', { session: false }), upload.single('image'), (req, res, next) => {
+  console.log(req.file);
   User.findOneAndUpdate({ email: req.user.email }, { image: req.file.filename }, (err, docs) => {
     if (err)
       console.log('error');
@@ -297,7 +321,51 @@ router.delete('/deleteAccount', passport.authenticate('jwt', { session: false })
   })
 })
 
+router.post('/searchUser', (req, res, next) => {
+  console.log("tata", req.body)
+  Users.searchName(req.body, (err, docs) => {
+    if (err)
+      throw err
+    else {
+      console.log(docs);
+      if (docs)
+        res.json({ name: docs.name, blogs: docs.blog, image: docs.image });
+      else
+        res.json(docs)
+    }
+  })
+})
+
+router.post('/searchKeyup', async (req, res, next) => {
+  console.log(req.body)
+  var { category } = req.body;
+  var data = [];
+  if (category == 'userName' || category == "name") {
+    Users.searching(req.body, (err, docs) => {
+      if (err)
+        throw err;
+      else {
+        for (let doc of docs) {
+          if (category == 'userName')
+            data.push(doc.userName)
+          else if (category == 'name')
+            data.push(doc.name)
+        }
+        res.json(data);
+      }
+    })
+  }
+  else
+    BlogUsers.searching(req.body, (err, docs) => {
+      if (err)
+        throw err
+      else
+        for (let doc of docs)
+          data.push(doc.title)
+      res.json(data)
+    })
+
+})
 
 module.exports = router;
-
 

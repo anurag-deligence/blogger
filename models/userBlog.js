@@ -8,7 +8,7 @@ const blogSchema = new Schema({
   createdAt: { type: Date, default: Date.now },
   comments: [{
     comment: { type: String },
-    email: { type: String },
+    userName: { type: String },
     createdAt: { type: Date, default: Date.now }
   }]
 })

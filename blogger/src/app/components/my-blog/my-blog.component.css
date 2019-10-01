@@ -1,3 +1,24 @@
-.ht{
-  margin-top:70px
+.btn{
+  margin-left:7px
+}
+
+.container-fluid{
+  padding: 90px 10px 20px
+}
+
+.dae{
+  text-align: right;
+  margin-right: 3%;
+  margin-top: 15px;
+}
+
+.btndt{
+  padding:10px 30px
+}
+
+.tdes{
+  padding: 10px;
+  background-color: seashell;
+  width:90%;
+  box-shadow: 10px 10px 5px grey;
 }
